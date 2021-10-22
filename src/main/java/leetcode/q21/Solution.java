@@ -5,7 +5,6 @@ class ListNode {
     ListNode next;
 
     ListNode() {
-        this.val = Integer.MIN_VALUE;
     }
 
     ListNode(int val) {
@@ -20,15 +19,22 @@ class ListNode {
 
 public class Solution {
     public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
-        ListNode result = new ListNode();
-        int temp_min = 0;
+        ListNode firstNode = new ListNode(0);
+        ListNode currentNode;
 
-        while (!(l1.next == null && l2.next == null)) {
-            if (l1.next == null)
+        currentNode = firstNode;
+        int temp_min;
+
+        if (l1 == null && l2 == null) return null;
+
+        while (true) {
+            if (l1 == null) {
                 temp_min = l2.val;
-            else if (l2.next == null)
+                l2 = l2.next;
+            } else if (l2 == null) {
                 temp_min = l1.val;
-            else {
+                l1 = l1.next;
+            } else {
                 if (l1.val == l2.val) {
                     temp_min = l1.val;
                     l1 = l1.next;
@@ -40,11 +46,14 @@ public class Solution {
                         l2 = l2.next;
                 }
             }
-            result.val = temp_min;
-            result.next = new ListNode();
-            result = result.next;
-        }
 
-        return result;
+            currentNode.val = temp_min;
+
+            if (l1 == null && l2 == null) break;
+
+            currentNode.next = new ListNode(0);
+            currentNode = currentNode.next;
+        }
+        return firstNode;
     }
 }
